@@ -18,24 +18,27 @@ const FullBtn: React.FC<FullBtnProps> = ({
   isDone = true,
   onClick,
 }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (!isDone) e.preventDefault();
-    // isDone이 false인 경우: 링크 이동 X
+  
+    const handleClick = (e: React.MouseEvent) => {
+        if (!isDone || (buttonLink === "" && onClick)) {
+            e.preventDefault();
+            if(onClick) onClick();
+        }
+    };
 
-    if (buttonLink === "" && onClick) { 
-        e.preventDefault();
-        onClick();
-    }
-};
+    const buttonContent = (
+        <div className={`p-3 rounded-xl text-center text-m mt-auto mb-6 ${isDone ? 'bg-main' : 'bg-mediumgray'}`}>
+            <span className="text-white">{buttonText}</span>
+        </div>
+    );
 
     return (
-      <div className={`max-w-full ${className}`}>
-        <Link to={buttonLink} onClick={handleClick}>
-          <div className="bg-main p-3 rounded-xl text-center text-m mt-auto mb-6">
-            <span className="text-white">{buttonText}</span>
-          </div>
-        </Link>
-      </div>
+        <div className={`max-w-full ${className}`}>
+            {isDone 
+                ? (<Link to={buttonLink} onClick={handleClick}>{buttonContent}</Link>) 
+                : (<div>{buttonContent}</div>)
+            }
+        </div>
     );
 };
 

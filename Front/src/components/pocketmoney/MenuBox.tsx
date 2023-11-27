@@ -9,9 +9,20 @@ type SendMoneyBoxProps = {
   classes?: string;
 };
 
-const SendMoneyBox: React.FC<SendMoneyBoxProps> = ({ link, bgColor, textColor, text, classes }) => {
+const SendMoneyBox: React.FC<SendMoneyBoxProps> = ({
+  link,
+  bgColor,
+  textColor,
+  text,
+  classes,
+}) => {
   return (
-    <Link to={link} className={`${bgColor} ${textColor} box-content rounded-xl h-40 w-60 pt-9 pl-10 border-4 ${classes}`}>
+    <Link
+      to={link}
+      className={`${bgColor} ${textColor} 
+      box-content rounded-xl w-60
+      p-4 py-10  border-4 text-2xl ${classes}`}
+    >
       {text}
     </Link>
   );

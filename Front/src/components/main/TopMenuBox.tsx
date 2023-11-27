@@ -11,8 +11,9 @@ type SendMoneyBoxProps = {
 
 const SendMoneyBox: React.FC<SendMoneyBoxProps> = ({ link, bgColor, textColor, text, classes }) => {
   return (
-    <Link to={link} className={`bg-${bgColor} text-${textColor} text-m bg-opacity-90 box-content rounded-xl p-16 m-4 mt-4 ${classes}`}>
+    <Link to={link} className={`bg-${bgColor} text-${textColor} w-full text-center text-m bg-opacity-90 box-content rounded-xl p-12 mt-4 ${classes}`}>
       {text}
+      <img src="/icons/icon-emoji-1.png" alt="Icon" className="w-20 h-20" />
     </Link>
   );
 };

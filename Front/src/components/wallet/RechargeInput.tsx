@@ -1,8 +1,12 @@
-import React from "react";
+interface RechargeInputProps {
+  rechargeAmount: number;
+  setRechargeAmount : (amount: number) => void;
+}
 
-function RechargeInput() {
-  const [rechargeAmount, setRechargeAmount] = React.useState(0);
-
+function RechargeInput({
+  rechargeAmount,
+  setRechargeAmount,
+}: RechargeInputProps) {
   const Amounts = [
     {
       value: 500,
@@ -20,7 +24,7 @@ function RechargeInput() {
   return (
     <div>
       <div className="text-center text-m my-10">
-        i don't care 머니로 충전할 금액
+        아이돈케어 머니로 충전할 금액
       </div>
       <div className="text-l text-main fontFamily-strong text-center my-10">
         {rechargeAmount
@@ -28,7 +32,7 @@ function RechargeInput() {
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}{" "}
         원
       </div>
-      <div className="flex justify-center gap-10  my-10">
+      <div className="flex justify-center gap-5  my-10">
         {Amounts.map((item, index) => {
           return (
             <div
@@ -42,6 +46,7 @@ function RechargeInput() {
             </div>
           );
         })}
+        <div className="px-5 py-3 bg-gray rounded-3xl" onClick={()=>{setRechargeAmount(0);}}>초기화</div>
       </div>
     </div>
   );

@@ -1,22 +1,35 @@
-import React from 'react'
+import React, { useState } from "react";
 import Header from "../../common/Header";
-import FullBtn from '../../common/FullBtn';
+import FullBtn from "../../common/FullBtn";
+import MoneyAmountSet from "../../common/MoneyAmountSet";
 
 interface Props {
-  onNext: () => void;
+  onNext: (amount: number) => void;
 }
 
 const KidFormAmount: React.FC<Props> = ({ onNext }) => {
+  const [moneyAmount, setMoneyAmount] = useState(0);
+
+  const handleValueChange = (value: number) => {
+    setMoneyAmount(value);
+  };
+
+  const handleNextClick = () => {
+    onNext(moneyAmount);
+  };
+
   return (
     <div className="flex flex-col h-screen pb-60">
-        <Header pageTitle="용돈 조르기" headerType="normal" headerLink="/" />
-        <div className="flex-grow">
-          <div>얼마를 달라고 할까요?</div>
+      <Header pageTitle="용돈 조르기" headerType="normal" headerLink="/" />
+      <div className="m-10 text-center flex-grow">
+        <div className="text-l mt-24 mb-16">얼마를 달라고 할까요?</div>
 
-          </div>
-      <FullBtn buttonText="다음" onClick={onNext} />
+        <MoneyAmountSet onValueChange={handleValueChange} />
+
+      </div>
+      <FullBtn buttonText="다음" onClick={handleNextClick} isDone={moneyAmount > 0} />
     </div>
-  )
-}
+  );
+};
 
-export default KidFormAmount
+export default KidFormAmount;

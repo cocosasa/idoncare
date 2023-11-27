@@ -1,21 +1,74 @@
+import { useEffect, useState } from "react";
 import kakaoLogo from "../../assets/imgs/login/kakaoLogo.png";
-const LoginButton = () => {
-  const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-  const REDIRECT_URI = "http://127.0.0.1:8000"; //Redirect URI
-  // oauth 요청 URL
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=select_account`;
+import { useMutation } from "react-query";
+import Loading from "../common/Loading";
+import { kakaoLoginUrl } from "../../apis/url/kakaoLoginUrl";
+import { PostLoginAxios } from "../../apis/axios/PostLoginAxios";
+import { useSetRecoilState } from "recoil";
+import { SignupCode } from "../../store/signup/atoms";
+import { useNavigate } from "react-router-dom";
+import { userData } from "../../store/common/atoms";
+import { PostLogin } from "../../types/PostLogin";
 
+const LoginButton = () => {
+  const navigate = useNavigate();
   const handleLogin = () => {
-    window.location.href = kakaoURL;
+    window.location.href = kakaoLoginUrl;
   };
+  const setKakaoCode = useSetRecoilState(SignupCode);
+  const setUserInfo = useSetRecoilState(userData);
+
+  useEffect(() => {
+    if (window.location.search === "") {
+      return;
+    }
+    setRedirect(true);
+    mutate();
+  }, []);
+
+  const { mutate } = useMutation<PostLogin>(PostLoginAxios, {
+    onSuccess: (res) => {
+      if (res.code === 200) {
+        console.log(res.headers);
+        setKakaoCode(res.info!.userId.toString());
+        if (res.info?.joined === false) {
+          navigate("/signup");
+        } else {
+          setUserInfo({
+            nickname: res.info!.nickname,
+            joined: true,
+            userId: res.info!.userId,
+            email: res.info!.email,
+            accessToken: res.headers,
+            role: res.info!.role,
+          });
+          navigate("/");
+        }
+      } else {
+        alert("Error: " + res.code + " " + res.error);
+      }
+      console.log(res);
+    },
+  });
+
+  const [redirect, setRedirect] = useState(false);
+
   return (
-    <button
-      className="w-full bg-[#fae100] rounded-[10px] h-[60px] flex justify-center items-center mt-[100px]"
-      onClick={handleLogin}
-    >
-      <img className="w-[20px] mx-[2px] mt-[4px]" src={kakaoLogo} />
-      <p className="text-m mx-[2px]">카카오 로그인</p>
-    </button>
+    <>
+      {!redirect ? (
+        <button
+          className="w-full bg-[#fae100] rounded-[10px] h-[60px] flex justify-center items-center mt-[80px] mb-10"
+          onClick={handleLogin}
+        >
+          <img className="w-[20px] mx-[2px] mt-[4px]" src={kakaoLogo} />
+          <p className="text-m mx-[2px]">카카오 로그인</p>
+        </button>
+      ) : (
+        <div className="flex items-center justify-center font-strong">
+          <Loading />
+        </div>
+      )}
+    </>
   );
 };
 

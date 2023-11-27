@@ -1,12 +1,12 @@
 {
-  "name": "my-react-pwa",
+  "name": "아이돈케어",
   "short_name": "아이돈케어",
-  "start_url": "./",
+  "start_url": "./login",
   "display": "standalone",
   "language": "ko-KR",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
-  "description": "PWA with Vite.js, React.js and TypeScript",
+  "background_color": "#2479E0",
+  "theme_color": "#2479E0",
+  "description": "자녀 용돈 관리 금융플랫폼",
   "icons": [
     {
       "src": "icons/favicon.ico",

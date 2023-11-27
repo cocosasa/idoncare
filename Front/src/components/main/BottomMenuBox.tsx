@@ -9,7 +9,7 @@ type BottomMenuBoxPropx = {
 
 const BottomMenuBox: React.FC<BottomMenuBoxPropx> = ({ link, text, classes }) => {
     return (
-      <div className="bg-light h-32 rounded-2xl text-center text-m flex items-center justify-center mb-8">
+      <div className="bg-gray h-32 rounded-2xl text-center text-m flex items-center justify-center mb-8 shadow-lg">
           <Link to={link} className={`${classes}`}>
               {text}
           </Link>

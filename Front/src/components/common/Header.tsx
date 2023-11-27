@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Icon from "./Icon";
 
 type PageTitle = string;
 type HeaderType = "normal" | "x" | "simple";
@@ -24,7 +25,7 @@ const Header = ({ pageTitle, headerType = "normal", headerLink = "back" }: Heade
       {headerType === "normal" ? (
         <>
           <li className={`text-[40px]`}>
-            <button onClick={handleLink}>&lt;</button>
+            <button onClick={handleLink}><Icon className="ml-8" name={'arrow-left'}/></button>
           </li>
           <li className="text-l">{pageTitle}</li>
           <li className={`text-[40px] text-transparent`}>X</li>

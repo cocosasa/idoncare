@@ -1,51 +1,108 @@
-import { useState } from "react";
-import Select from "react-select";
-import YesNoBtn from "../common/YesNoBtn";
-
-type SelectOption = {
-  value: string;
-  label: string;
-};
+import React, { useState } from "react";
+import Header from "../common/Header";
+import FullBtn from "../common/FullBtn";
 
 interface Props {
-  onSelected: (value: string) => void;
-  onClose: () => void;
+  onNext: (type: string, cycle: number) => void;
 }
 
-const RegularMoneySendFormCycle: React.FC<Props> = ({ onSelected, onClose }) => {
-  const [tempSelectedOption, setTempSelectedOption] = useState<SelectOption | null>(null);
+const RegularSendFormCycle: React.FC<Props> = ({ onNext }) => {
+  const [type, setType] = useState<string | null>(null);
+  const [cycle, setCycle] = useState<number | null>(null);
 
+  const handleTypeChange = (selectedType: string) => {
+    setType(selectedType);
+    setCycle(null);
 
-  const frequencyOptions: SelectOption[] = [
-    { value: "", label: "이체주기를 선택해주세요." },
-    { value: "monthly", label: "매월" },
-    { value: "weekly", label:"매주" },
-    { value: "daily", label:"매일" }
- ];
-
-   const handleOptionChange = (selectedOption :SelectOption | null) => {
-     setTempSelectedOption(selectedOption);
-   };
-
-   const handleYesClick = () => {
-    if(tempSelectedOption){
-      console.log(tempSelectedOption.label)
-      onSelected(tempSelectedOption.label);
-      onClose();
+    if (selectedType === "DAY") {
+      setCycle(1);
     }
   };
 
-   return (
-    <div>
-      <Select 
-         options={frequencyOptions}
-         value={tempSelectedOption}
-         onChange={handleOptionChange}
-         className="mt-10 mb-5 bg-gray-50 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-      />
-      <YesNoBtn yesText="예" noText="아니오" onYesClick={handleYesClick} onNoClick={onClose}/>
-    </div>
- );
-}
+  const handleCycleChange = (selectedCycle: number) => {
+    setCycle(selectedCycle);
+  };
 
-export default RegularMoneySendFormCycle;
+  const handleNextClick = () => {
+    if (type && cycle) {
+      onNext(type, cycle);
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-screen pb-60">
+      <Header pageTitle="정기용돈 등록" headerType="normal" headerLink="/" />
+      <div className="mt-52 text-center flex-grow">
+        <select
+          style={{
+            width: "50%",
+            height: "40px",
+            fontSize: "15px",
+            marginBottom: "10px",
+          }}
+          onChange={(e) => handleTypeChange(e.target.value)}
+        >
+          <option value="">이체 주기를 선택해주세요.</option>
+          <option value="DAY">매일</option>
+          <option value="WEEK">매주</option>
+          <option value="MONTH">매월</option>
+        </select>
+
+        {type === "WEEK" && (
+          <>
+            <br />
+            <select
+              style={{ width: "50%", height: "40px", fontSize: "15px" }}
+              onChange={(e) => handleCycleChange(Number(e.target.value))}
+            >
+              <option value="" disabled selected>
+                요일을 선택해주세요.
+              </option>
+              {[
+                "월요일",
+                "화요일",
+                "수요일",
+                "목요일",
+                "금요일",
+                "토요일",
+                "일요일",
+              ].map((dayOfWeek, i) => (
+                <option key={i} value={i + 1}>
+                  {dayOfWeek}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+
+        {type === "MONTH" && (
+          <>
+            <br />
+            <select
+              style={{ width: "50%", height: "40px", fontSize: "15px" }}
+              onChange={(e) => handleCycleChange(Number(e.target.value))}
+            >
+              {/* disabled와 selected 속성 추가 */}
+              <option value="" disabled selected>
+                일자를 선택해주세요.
+              </option>
+              {[...Array(31)].map((_, i) => (
+                <option key={i} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+      </div>
+
+      <FullBtn
+        buttonText="다음"
+        onClick={handleNextClick}
+        isDone={!!(type && cycle)}
+      />
+    </div>
+  );
+};
+
+export default RegularSendFormCycle;

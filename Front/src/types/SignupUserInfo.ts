@@ -1,21 +1,19 @@
-type Type = string;
+type UserId = string;
+type Role = string;
 type Name = string;
-type Nickname = string;
+type NickName = string;
 type Birth = string;
 type Email = string;
-type Address = string;
 type Phone = string;
-type Code = string;
-type HasAccount = string;
+type Password = string;
 
 export interface SignupUserInfo {
-  type?: Type;
+  userId?: UserId;
+  role?: Role;
   name?: Name;
-  nickname?: Nickname;
+  nickName?: NickName;
   birth?: Birth;
+  phoneNumber?: Phone;
   email?: Email;
-  address?: Address;
-  phone?: Phone;
-  code?: Code;
-  hasAccount?: HasAccount;
+  password?: Password;
 }

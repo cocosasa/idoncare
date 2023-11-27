@@ -1,7 +1,12 @@
-import logo from "../../assets/imgs/login/logo.png";
 
 const LoginLogo = () => {
-  return <img className="w-full mt-[150px]" src={logo} />;
+  return (
+    <img
+      src="/icons/icon-logo-2.png"
+      alt="logo"
+      className=" mx-auto mb-20 px-[10vw]"
+    />
+  );
 };
 
 export default LoginLogo;

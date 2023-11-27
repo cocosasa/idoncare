@@ -1,1 +1,3 @@
-export const baseUrl = "https://i9d206.p.ssafy.io/api/v1";
+export const baseUrl = "http://k9d103a.p.ssafy.io:8081/";
+export const imageUrl = "http://k9d103a.p.ssafy.io:8081/";
+export const localUrl = `${window.location.origin}`;
